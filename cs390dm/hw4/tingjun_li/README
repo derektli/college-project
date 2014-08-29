@@ -1,0 +1,15 @@
+Name: Tingjun Li
+Email: li400@purdue.edu
+files: 
+    imports-85.data: original data
+    randomselect.py: a file I used to generate random training set and testing set. it will call naive-bayes.py and regression-tree.py
+    regression-tree.py: the code that implemented regression tree
+    naive-bayes.py: the code that implemented naive bayes classifer
+    README: this file
+    train-set test-set: randomly generated set
+
+How to run: 
+    Type "python naive-bayes.py train-set test-set" to run naive bayes classifer algorithm
+    Type "python regression-tree.py train-set test-set" to run regression-tree algorithm
+    Type "python randomselect.py" to randomly generate training/test set using 10-fold cross validation. 
+    It will also call both bayes and regression tree and print out their zero-one loss at different training size.

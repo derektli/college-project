@@ -1,0 +1,512 @@
+Name: Tingjun Li
+Email: li400@purdue.edu
+
+==============================================================================================
+
+1. Test the performance of retrieval algorithm "RawTF" with two types of text data (i.e., raw text data and text data by stemming and removing stopwords). 
+
+==============================================================================================
+
+Result of raw text data:
+
+sslab07 112 $ ../trec_eval qrel result_rawtf 
+
+Queryid (Num):       30
+Total number of documents over all queries
+    Retrieved:     3000
+    Relevant:       442
+    Rel_ret:        108
+Interpolated Recall - Precision Averages:
+    at 0.00       0.1760 
+    at 0.10       0.1180 
+    at 0.20       0.0844 
+    at 0.30       0.0539 
+    at 0.40       0.0396 
+    at 0.50       0.0349 
+    at 0.60       0.0234 
+    at 0.70       0.0072 
+    at 0.80       0.0072 
+    at 0.90       0.0000 
+    at 1.00       0.0000 
+Average precision (non-interpolated) for all rel docs(averaged over queries)
+                  0.0449 
+Precision:
+  At    5 docs:   0.0733
+  At   10 docs:   0.0833
+  At   15 docs:   0.0689
+  At   20 docs:   0.0633
+  At   30 docs:   0.0611
+  At  100 docs:   0.0360
+  At  200 docs:   0.0180
+  At  500 docs:   0.0072
+  At 1000 docs:   0.0036
+R-Precision (precision after R (= num_rel for a query) docs retrieved):
+    Exact:        0.0712
+    
+
+
+Result of data by stemming and removing stopwords:    
+    
+sslab07 113 $ ../trec_eval qrel result_rawtf_stemmed_nostopw 
+
+Queryid (Num):       30
+Total number of documents over all queries
+    Retrieved:     3000
+    Relevant:       442
+    Rel_ret:        196
+Interpolated Recall - Precision Averages:
+    at 0.00       0.3991 
+    at 0.10       0.2889 
+    at 0.20       0.2347 
+    at 0.30       0.2002 
+    at 0.40       0.1186 
+    at 0.50       0.0834 
+    at 0.60       0.0641 
+    at 0.70       0.0292 
+    at 0.80       0.0292 
+    at 0.90       0.0145 
+    at 1.00       0.0145 
+Average precision (non-interpolated) for all rel docs(averaged over queries)
+                  0.1174 
+Precision:
+  At    5 docs:   0.1800
+  At   10 docs:   0.1433
+  At   15 docs:   0.1467
+  At   20 docs:   0.1333
+  At   30 docs:   0.1156
+  At  100 docs:   0.0653
+  At  200 docs:   0.0327
+  At  500 docs:   0.0131
+  At 1000 docs:   0.0065
+R-Precision (precision after R (= num_rel for a query) docs retrieved):
+    Exact:        0.1404
+
+The second one is significantly better. Both Average precision and R-Precision are higher. 
+Analysis: 
+	Removing stopwords: take out words that used frequently so they will not be indexed.
+	Stemming: Stemming associate morphological varients of words into a single form.
+	These two make indexing more correct. They will make the retrival result more correct.
+
+
+
+
+
+
+
+
+
+
+
+==============================================================================================
+
+2. Implement three different retrieval algorithms and evaluate their performance. (60 points)
+
+==============================================================================================
+
+Result of RawTFIDF:
+-------------------
+sslab07 141 $ ../trec_eval qrel result_rawtfidf_stemmed_nostopw 
+
+Queryid (Num):       30
+Total number of documents over all queries
+    Retrieved:     3000
+    Relevant:       442
+    Rel_ret:        240
+Interpolated Recall - Precision Averages:
+    at 0.00       0.6357 
+    at 0.10       0.4309 
+    at 0.20       0.3695 
+    at 0.30       0.2845 
+    at 0.40       0.2323 
+    at 0.50       0.1826 
+    at 0.60       0.1482 
+    at 0.70       0.0953 
+    at 0.80       0.0742 
+    at 0.90       0.0294 
+    at 1.00       0.0294 
+Average precision (non-interpolated) for all rel docs(averaged over queries)
+                  0.2037 
+Precision:
+  At    5 docs:   0.2933
+  At   10 docs:   0.2600
+  At   15 docs:   0.2222
+  At   20 docs:   0.1983
+  At   30 docs:   0.1689
+  At  100 docs:   0.0800
+  At  200 docs:   0.0400
+  At  500 docs:   0.0160
+  At 1000 docs:   0.0080
+R-Precision (precision after R (= num_rel for a query) docs retrieved):
+    Exact:        0.2424
+
+
+Result of LogTFIDF
+-------------------
+sslab07 151 $ ../trec_eval qrel result_logtfidf_stemmed_nostopw 
+
+Queryid (Num):       30
+Total number of documents over all queries
+    Retrieved:     3000
+    Relevant:       442
+    Rel_ret:        227
+Interpolated Recall - Precision Averages:
+    at 0.00       0.6725 
+    at 0.10       0.5012 
+    at 0.20       0.4259 
+    at 0.30       0.3350 
+    at 0.40       0.2623 
+    at 0.50       0.1998 
+    at 0.60       0.1189 
+    at 0.70       0.0718 
+    at 0.80       0.0493 
+    at 0.90       0.0084 
+    at 1.00       0.0084 
+Average precision (non-interpolated) for all rel docs(averaged over queries)
+                  0.2202 
+Precision:
+  At    5 docs:   0.3333
+  At   10 docs:   0.2767
+  At   15 docs:   0.2444
+  At   20 docs:   0.2150
+  At   30 docs:   0.1622
+  At  100 docs:   0.0757
+  At  200 docs:   0.0378
+  At  500 docs:   0.0151
+  At 1000 docs:   0.0076
+R-Precision (precision after R (= num_rel for a query) docs retrieved):
+    Exact:        0.2794
+
+Result of Okapi:
+-------------------
+sslab07 165 $ ../trec_eval qrel result_okapi_stemmed_nostopw 
+
+Queryid (Num):       30
+Total number of documents over all queries
+    Retrieved:     3000
+    Relevant:       442
+    Rel_ret:        286
+Interpolated Recall - Precision Averages:
+    at 0.00       0.8056 
+    at 0.10       0.7440 
+    at 0.20       0.6322 
+    at 0.30       0.5556 
+    at 0.40       0.4279 
+    at 0.50       0.3430 
+    at 0.60       0.2557 
+    at 0.70       0.1752 
+    at 0.80       0.1214 
+    at 0.90       0.0488 
+    at 1.00       0.0434 
+Average precision (non-interpolated) for all rel docs(averaged over queries)
+                  0.3584 
+Precision:
+  At    5 docs:   0.4867
+  At   10 docs:   0.3967
+  At   15 docs:   0.3156
+  At   20 docs:   0.2917
+  At   30 docs:   0.2289
+  At  100 docs:   0.0953
+  At  200 docs:   0.0477
+  At  500 docs:   0.0191
+  At 1000 docs:   0.0095
+R-Precision (precision after R (= num_rel for a query) docs retrieved):
+    Exact:        0.3813
+
+Overall result:
+Okapi > LogTFIDF > RawTFIDF > RawTF
+Discussion:
+	RawTF: 
+		Advantages: 
+			take into consideration of Term Frequency(TF): how important the document is
+			works well when query is precise, predictive and efficient
+			Results in ranked list: eaiser to browse
+		Disadvantages:
+			exact match
+			did not take into consideration of IDF - not important term might mess up result
+			predictablity makes user overestimate retrival quality
+	
+	RawTFIDF:
+		Advantages:		
+			take into consideration of Term Frequency(TF): how important the document is
+			take into consideration of Inversed Document Frequency(IDF): how important the term is
+			works well when query is precise, predictive and efficient
+			Results in ranked list: eaiser to browse
+		Disadvantages:
+			exact match
+			predictablity makes user overestimate retrival quality
+			
+        LogTFIDF
+        
+		Advantages:		
+			Has all the advantages that RawTFIDF have, it also take a log operation to the docTermFreq
+			which will lower than the noise
+		
+		Disadvantages:
+			exact match
+			predictablity makes user overestimate retrival quality
+        
+	Okapi:
+		Advantages:
+			take into consideration of document length (the longer the worse)
+			Best match method instead of exact match
+		Disadvantages:
+			Assume independent relationship among terms
+
+
+
+
+
+
+==============================================================================================
+
+3. Run the retrieval algorithms on a second dataset: a subset of Purdue Computer Science web pages (20 pts).
+
+==============================================================================================
+Query
+--------------
+<DOC 101>
+phd
+student
+postdoc
+professor
+research
+interest
+machin
+learn
+data
+mine
+</DOC>
+
+<DOC 102>
+cours
+inform
+secur
+</DOC>
+
+<DOC 103>
+professor
+research
+databas
+system
+</DOC>
+
+
+
+RawTF
+--------------
+
+sslab07 78 $ cat result_rawtf_stemmed_nostopw 
+101 Q0 http://www.cs.purdue.edu/homes/apm/RealignmentStatus.html 1 103 Exp
+101 Q0 http://www.cs.purdue.edu/homes/neville/publications_by_date.html 2 100 Exp
+101 Q0 http://www.cs.purdue.edu/people/faculty/ 3 89 Exp
+101 Q0 http://www.cs.purdue.edu/academic_programs/graduate/curriculum/doctoral.sxhtml 4 87 Exp
+101 Q0 http://www.cs.purdue.edu/academic_programs/graduate/curriculum/old/phd_2010_changeMarch2011.sxhtml 5 83 Exp
+
+102 Q0 http://www.cs.purdue.edu/gsb/survival_guide:curriculum 1 85 Exp
+102 Q0 http://www.cs.purdue.edu/gsb/_export/xhtml/survival_guide:curriculum 2 85 Exp
+102 Q0 http://www.cs.purdue.edu/homes/ninghui/pubs.html 3 74 Exp
+102 Q0 http://www.cs.purdue.edu/homes/spa/publications.html 4 54 Exp
+102 Q0 http://www.cs.purdue.edu/academic_programs/graduate/curriculum/old/phd_2002.sxhtml 5 49 Exp
+
+103 Q0 http://www.cs.purdue.edu/people/faculty/ 1 85 Exp
+103 Q0 http://www.cs.purdue.edu/phds/ 2 85 Exp
+103 Q0 http://www.cs.purdue.edu/homes/ckillian/ 3 67 Exp
+103 Q0 http://www.cs.purdue.edu/homes/jrr/pubs/publications.html 4 63 Exp
+103 Q0 http://www.cs.purdue.edu/resources/policies/facilities/aup.sxhtml 5 61 Exp
+
+
+RawTFIDF
+--------------
+
+sslab07 84 $ cat result_rawtfidf_stemmed_nostopw 
+101 Q0 http://www.cs.purdue.edu/homes/neville/publications_by_date.html 1 211.83 Exp
+101 Q0 http://www.cs.purdue.edu/homes/xu218/ 2 134.583 Exp
+101 Q0 http://www.cs.purdue.edu/homes/apm/RealignmentStatus.html 3 134.297 Exp
+101 Q0 http://www.cs.purdue.edu/people/faculty/ 4 125.848 Exp
+101 Q0 http://www.cs.purdue.edu/homes/ayg/CS590D/lectures/ 5 113.09 Exp
+
+102 Q0 http://www.cs.purdue.edu/homes/ninghui/pubs.html 1 124.594 Exp
+102 Q0 http://www.cs.purdue.edu/gsb/survival_guide:curriculum 2 123.495 Exp
+102 Q0 http://www.cs.purdue.edu/gsb/_export/xhtml/survival_guide:curriculum 3 123.495 Exp
+102 Q0 http://www.cs.purdue.edu/academic_programs/graduate/curriculum/old/phd_2002.sxhtml 4 73.7837 Exp
+102 Q0 http://www.cs.purdue.edu/academic_programs/graduate/curriculum/doctoral.sxhtml 5 69.3183 Exp
+
+103 Q0 http://www.cs.purdue.edu/people/faculty/ 1 122.341 Exp
+103 Q0 http://www.cs.purdue.edu/phds/ 2 88.123 Exp
+103 Q0 http://www.cs.purdue.edu/homes/apm/RealignmentStatus.html 3 73.3686 Exp
+103 Q0 http://www.cs.purdue.edu/homes/ckillian/ 4 58.235 Exp
+103 Q0 http://www.cs.purdue.edu/homes/ayg/CS590D/lectures/lec2.html 5 54.3687 Exp
+
+LogTFIDF
+--------------
+
+sslab10 86 $ cat result_logtfidf_stemmed_nostopw 
+101 Q0 http://www.cs.purdue.edu/homes/neville/publications_by_date.html 1 27.5258 Exp
+101 Q0 http://www.cs.purdue.edu/homes/xu218/ 2 23.9984 Exp
+101 Q0 http://www.cs.purdue.edu/homes/neville/courses/CS390DM.html 3 20.9652 Exp
+101 Q0 http://www.cs.purdue.edu/homes/ayg/CS590D/lectures/ 4 20.0253 Exp
+101 Q0 http://www.cs.purdue.edu/homes/neville/ 5 19.1976 Exp
+
+102 Q0 http://www.cs.purdue.edu/homes/ninghui/pubs.html 1 10.2758 Exp
+102 Q0 http://www.cs.purdue.edu/gsb/survival_guide:curriculum 2 9.79612 Exp
+102 Q0 http://www.cs.purdue.edu/gsb/_export/xhtml/survival_guide:curriculum 3 9.79612 Exp
+102 Q0 http://www.cs.purdue.edu/homes/ninghui/SecurityReadings.html 4 8.44694 Exp
+102 Q0 http://www.cs.purdue.edu/academic_programs/graduate/curriculum/doctoral.sxhtml 5 7.95467 Exp
+
+103 Q0 http://www.cs.purdue.edu/homes/ake/ 1 11.1062 Exp
+103 Q0 http://www.cs.purdue.edu/people/faculty/ake/ 2 10.515 Exp
+103 Q0 http://www.cs.purdue.edu/people/faculty/bertino/ 3 10.3515 Exp
+103 Q0 http://www.cs.purdue.edu/news/11-21-05bertinokanai.htm 4 9.70092 Exp
+103 Q0 http://www.cs.purdue.edu/gsb/survival_guide:curriculum 5 9.47417 Exp
+
+Okapi
+--------------
+
+sslab10 88 $ cat result_okapi_stemmed_nostopw    
+101 Q0 http://www.cs.purdue.edu/homes/fangy/ 1 8.82944 Exp
+101 Q0 http://www.cs.purdue.edu/homes/neville/courses/icwsm09-tutorial.html 2 8.27766 Exp
+101 Q0 http://www.cs.purdue.edu/homes/neville/ 3 7.69525 Exp
+101 Q0 http://www.cs.purdue.edu/homes/xu218/ 4 7.6913 Exp
+101 Q0 http://www.cs.purdue.edu/homes/nkahmed/ 5 7.41205 Exp
+
+102 Q0 http://www.cs.purdue.edu/academic_programs/courses/catalog/2005/Fall/cs526.sxhtml 1 2.87898 Exp
+102 Q0 http://www.cs.purdue.edu/homes/ninghui/courses/526_Spring11/index.html 2 2.8455 Exp
+102 Q0 http://www.cs.purdue.edu/homes/ninghui/courses/426_Fall10/overview.html 3 2.84023 Exp
+102 Q0 http://www.cs.purdue.edu/homes/ninghui/courses/526_Fall11/index.html 4 2.8343 Exp
+102 Q0 http://www.cs.purdue.edu/academic_programs/courses/catalog/2005/Fall/cs591S.sxhtml 5 2.81762 Exp
+
+103 Q0 http://www.cs.purdue.edu/about_us/annual_reports/97/faculty/ake.html 1 3.35953 Exp
+103 Q0 http://www.cs.purdue.edu/about_us/annual_reports/98/faculty/ake/ake_bio.html 2 3.32428 Exp
+103 Q0 http://www.cs.purdue.edu/homes/ake/ 3 3.14894 Exp
+103 Q0 http://www.cs.purdue.edu/news/03-29-2004_univfacsch.shtml 4 3.12772 Exp
+103 Q0 http://www.cs.purdue.edu/news/01-01-2004_bertino.shtml 5 3.12308 Exp
+
+Evaluation:
+Okapi > LogTFIDF > RawTFIDF > RawTF
+I evaluated 5 documents from each query across all methods. 
+I open the links and compare them to the query and determine if they are relevant.
+Related documents retrieved: (101 + 102 + 103)
+Okapi 5 + 5 + 5 > LogTFIDF 5 + 0 + 4 > RawTFIDF 2 + 0 + 0 > RawTF 1 + 0 + 0
+
+
+Discussion:
+	RawTF: 
+		Advantages: 
+			take into consideration of Term Frequency(TF): how important the document is
+			works well when query is precise, predictive and efficient
+			Results in ranked list: eaiser to browse
+		Disadvantages:
+			did not take into consideration of document length
+			did not take into consideration of IDF - not important term might mess up result
+			predictablity makes user overestimate retrival quality
+	
+	RawTFIDF:
+		Advantages:		
+			take into consideration of Term Frequency(TF): how important the document is
+			take into consideration of Inversed Document Frequency(IDF): how important the term is
+			works well when query is precise, predictive and efficient
+			Results in ranked list: eaiser to browse
+		Disadvantages:
+			did not take into consideration of document length
+			predictablity makes user overestimate retrival quality
+			
+        LogTFIDF
+        
+		Advantages:		
+			Has all the advantages that RawTFIDF have, it also take a log operation to the docTermFreq
+			which will lower than the noise
+		
+		Disadvantages:
+			did not take into consideration of document length
+			predictablity makes user overestimate retrival quality
+        
+	Okapi:
+		Advantages:
+			take into consideration of document length (the longer the worse)
+			Best match method instead of exact match
+		Disadvantages:
+			Assume independent relationship among terms
+
+
+==============================================================================================
+
+4. Implement your own retrieval algorithm. (10 points)
+
+==============================================================================================
+
+computeCustomWeight: add a field of docLenth(too long is bad)
+
+//Code
+
+double computeCustomWeight(int docID,
+		     int termID, 
+		     int docTermFreq, 
+		     double qryTermWeight,
+		     Index *ind)
+{
+  double temp = docTermFreq * 0.5* (ind->docLengthAvg()/ind->docLength(docID))
+                *log(ind->docCount()/(ind->docCount(termID)+1))*qryTermWeight;
+  return temp;
+}
+
+
+computeCustomAdjustedScore: return a stand score after normalization
+
+double computeCustomAdjustedScore(double origScore, // the score from the accumulator
+			    int docID, // doc ID
+			    double mean,
+			    double stdDiv,
+			    Index *ind) // index
+{
+    //standardizing
+    return (origScore-mean)/stdDiv;
+}
+
+
+//Result
+
+sslab07 275 $ ../trec_eval qrel result_custom_stemmed_nostopw 
+
+Queryid (Num):       30
+Total number of documents over all queries
+    Retrieved:     3000
+    Relevant:       442
+    Rel_ret:        284
+Interpolated Recall - Precision Averages:
+    at 0.00       0.6132 
+    at 0.10       0.5373 
+    at 0.20       0.4109 
+    at 0.30       0.3482 
+    at 0.40       0.3053 
+    at 0.50       0.2367 
+    at 0.60       0.1782 
+    at 0.70       0.1277 
+    at 0.80       0.0898 
+    at 0.90       0.0320 
+    at 1.00       0.0219 
+Average precision (non-interpolated) for all rel docs(averaged over queries)
+                  0.2463 
+Precision:
+  At    5 docs:   0.3933
+  At   10 docs:   0.3133
+  At   15 docs:   0.2733
+  At   20 docs:   0.2417
+  At   30 docs:   0.2011
+  At  100 docs:   0.0947
+  At  200 docs:   0.0473
+  At  500 docs:   0.0189
+  At 1000 docs:   0.0095
+R-Precision (precision after R (= num_rel for a query) docs retrieved):
+    Exact:        0.2611
+
+
+
+
+Advantages: 
+        document length is taken into consideration.         
+	Score are ajusted. All the score are standardized. Therefore it can allow error. 
+	Result is a little bit better than TFIDF
+Disadvantages:
+	the weight of the document length is hard to ajusted. 
+	
+

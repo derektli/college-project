@@ -1,0 +1,18 @@
+Name: Tingjun Li
+Email: li400@purdue.edu
+files: 
+    CS390DMHomework6AssociationRulesReport.pdf 
+    association-rules.py: source code of my algorithm
+    randomGenerate.py: a program I used to generate random dataset 
+    README: this file
+    random-train-set: randomly generated dataset
+    train-set.dat: original dataset
+
+How to run: 
+    Type "python association-rules.py train-set.dat 0.25 0.75"
+    "train-set.dat" is dataset file name
+    0.25 is minsup
+    0.75 is minconf
+
+
+    

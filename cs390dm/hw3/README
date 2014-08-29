@@ -1,0 +1,15 @@
+Name: Tingjun Li
+Email: li400@purdue.edu
+files: 
+    imports-85.data: original data
+    randomselect.py: a file I used to generate random case. You can ignore it
+    README: this file
+    regression-tree.py: the code that implementes regression tree
+    T1, T2, T3, T1T2, T1T3, T2T3, train-set test-set: randomly generated set
+
+How to run: 
+    Simply type "python regression-tree.py train-set test-set"
+
+P.S.
+    Problem1: train-set and test-set are randomly splited from the original data set.
+    Problem2: T1, T2, T3, T1T2, T1T3, T2T3 are randomly generated using the code randomselect.py

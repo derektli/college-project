@@ -1,0 +1,397 @@
+
+R version 2.13.1 (2011-07-08)
+Copyright (C) 2011 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: i686-pc-linux-gnu (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> #Name: Tingjun Li
+> #Email: li400@purdue.edu
+> #1
+> data = read.table("imports-85.data",sep=",",na.strings="?")
+> 
+> names = c("symboling","normalized-losses","make","fuel-type","aspiration","num-of-doors","body-style","drive-wheels","engine-location","wheel-base","length","width","height","curb-weight","engine-type","num-of-cylinders","engine-size","fuel-system","bore","stroke","compression-ratio","horsepower","peak-rpm","city-mpg","highway-mpg","price")
+> 
+> print(names)
+ [1] "symboling"         "normalized-losses" "make"             
+ [4] "fuel-type"         "aspiration"        "num-of-doors"     
+ [7] "body-style"        "drive-wheels"      "engine-location"  
+[10] "wheel-base"        "length"            "width"            
+[13] "height"            "curb-weight"       "engine-type"      
+[16] "num-of-cylinders"  "engine-size"       "fuel-system"      
+[19] "bore"              "stroke"            "compression-ratio"
+[22] "horsepower"        "peak-rpm"          "city-mpg"         
+[25] "highway-mpg"       "price"            
+> 
+> #1.2
+> summary(data)
+       V1                V2               V3           V4          V5     
+ Min.   :-2.0000   Min.   : 65   toyota    : 32   diesel: 20   std  :168  
+ 1st Qu.: 0.0000   1st Qu.: 94   nissan    : 18   gas   :185   turbo: 37  
+ Median : 1.0000   Median :115   mazda     : 17                           
+ Mean   : 0.8341   Mean   :122   honda     : 13                           
+ 3rd Qu.: 2.0000   3rd Qu.:150   mitsubishi: 13                           
+ Max.   : 3.0000   Max.   :256   subaru    : 12                           
+                   NA's   : 41   (Other)   :100                           
+    V6                V7       V8          V9           V10        
+ four:114   convertible: 6   4wd:  9   front:202   Min.   : 86.60  
+ two : 89   hardtop    : 8   fwd:120   rear :  3   1st Qu.: 94.50  
+ NA's:  2   hatchback  :70   rwd: 76               Median : 97.00  
+            sedan      :96                         Mean   : 98.76  
+            wagon      :25                         3rd Qu.:102.40  
+                                                   Max.   :120.90  
+                                                                   
+      V11             V12             V13             V14          V15     
+ Min.   :141.1   Min.   :60.30   Min.   :47.80   Min.   :1488   dohc : 12  
+ 1st Qu.:166.3   1st Qu.:64.10   1st Qu.:52.00   1st Qu.:2145   dohcv:  1  
+ Median :173.2   Median :65.50   Median :54.10   Median :2414   l    : 12  
+ Mean   :174.0   Mean   :65.91   Mean   :53.72   Mean   :2556   ohc  :148  
+ 3rd Qu.:183.1   3rd Qu.:66.90   3rd Qu.:55.50   3rd Qu.:2935   ohcf : 15  
+ Max.   :208.1   Max.   :72.30   Max.   :59.80   Max.   :4066   ohcv : 13  
+                                                                rotor:  4  
+     V16           V17             V18          V19            V20       
+ eight :  5   Min.   : 61.0   mpfi   :94   Min.   :2.54   Min.   :2.070  
+ five  : 11   1st Qu.: 97.0   2bbl   :66   1st Qu.:3.15   1st Qu.:3.110  
+ four  :159   Median :120.0   idi    :20   Median :3.31   Median :3.290  
+ six   : 24   Mean   :126.9   1bbl   :11   Mean   :3.33   Mean   :3.255  
+ three :  1   3rd Qu.:141.0   spdi   : 9   3rd Qu.:3.59   3rd Qu.:3.410  
+ twelve:  1   Max.   :326.0   4bbl   : 3   Max.   :3.94   Max.   :4.170  
+ two   :  4                   (Other): 2   NA's   :4.00   NA's   :4.000  
+      V21             V22             V23            V24             V25       
+ Min.   : 7.00   Min.   : 48.0   Min.   :4150   Min.   :13.00   Min.   :16.00  
+ 1st Qu.: 8.60   1st Qu.: 70.0   1st Qu.:4800   1st Qu.:19.00   1st Qu.:25.00  
+ Median : 9.00   Median : 95.0   Median :5200   Median :24.00   Median :30.00  
+ Mean   :10.14   Mean   :104.3   Mean   :5125   Mean   :25.22   Mean   :30.75  
+ 3rd Qu.: 9.40   3rd Qu.:116.0   3rd Qu.:5500   3rd Qu.:30.00   3rd Qu.:34.00  
+ Max.   :23.00   Max.   :288.0   Max.   :6600   Max.   :49.00   Max.   :54.00  
+                 NA's   :  2.0   NA's   :   2                                  
+      V26       
+ Min.   : 5118  
+ 1st Qu.: 7775  
+ Median :10295  
+ Mean   :13207  
+ 3rd Qu.:16500  
+ Max.   :45400  
+ NA's   :    4  
+> #summary(na.omit(data))
+> 
+> #1.3
+> 
+> maxgap=0
+> x=0
+>  
+> for (i in 1:ncol(data))
++ {
++   k=1
++   while(is.na(data[k,i])) k=k+1
++ 
++   if (is.numeric(data[k,i]))
++   {
++     diff = max(na.omit(data[,i])) -  min(na.omit(data[,i]))
++     if (diff>maxgap) 
++     {
++       maxgap = diff
++       x = i
++     }
++   }
++ }
+> 
+> hist(data[,x],main=names[x])
+> 
+> #1.4
+> maxgap=0
+> x=0
+>  
+> for (i in 1:ncol(data))
++ {
++   k=1
++   while(is.na(data[k,i])) k=k+1
++ 
++   if (!is.numeric(data[k,i]))
++   {
++     diff = length(table(data[,i]))
++     if (diff>maxgap) 
++     {
++       maxgap = diff
++       x = i
++     }
++   }
++ }
+> t = as.data.frame(table(na.omit(data[,x])))
+> barplot(t$Freq,names.arg=t$Var1,main=names[x], las=2)
+> 
+> #2
+> #find the 10 col
+> j=1
+> a = 1:10
+> for (i in 1:ncol(data))
++ {
++   if (is.numeric(data[1,i]) && !is.na(max(data[,i])))
++   {
++      a[j]=i
++      j=j+1
++   }
++ }
+> #calculate the cor and store them in cm[,]
+> c = 1:100
+> cm = matrix(c,ncol=10,byrow=T)
+> 
+> for (i in 1:10)
++ {
++   for (j in 1:10)
++   {
++     cm[i,j]=cor(data[,a[i]],data[,a[j]])
++   }
++ }
+> cm
+             [,1]       [,2]       [,3]       [,4]        [,5]       [,6]
+ [1,]  1.00000000 -0.5319537 -0.3576115 -0.2329191 -0.54103820 -0.2276906
+ [2,] -0.53195368  1.0000000  0.8745875  0.7951436  0.58943476  0.7763863
+ [3,] -0.35761152  0.8745875  1.0000000  0.8411183  0.49102946  0.8777285
+ [4,] -0.23291906  0.7951436  0.8411183  1.0000000  0.27921032  0.8670325
+ [5,] -0.54103820  0.5894348  0.4910295  0.2792103  1.00000000  0.2955717
+ [6,] -0.22769059  0.7763863  0.8777285  0.8670325  0.29557173  1.0000000
+ [7,] -0.10578971  0.5693287  0.6833599  0.7354334  0.06714874  0.8505941
+ [8,] -0.17851508  0.2497858  0.1584137  0.1811286  0.26121423  0.1513617
+ [9,] -0.03582263 -0.4704136 -0.6709087 -0.6427043 -0.04863963 -0.7574138
+[10,]  0.03460600 -0.5440819 -0.7046616 -0.6772179 -0.10735763 -0.7974648
+             [,7]        [,8]        [,9]      [,10]
+ [1,] -0.10578971 -0.17851508 -0.03582263  0.0346060
+ [2,]  0.56932868  0.24978585 -0.47041361 -0.5440819
+ [3,]  0.68335987  0.15841371 -0.67090866 -0.7046616
+ [4,]  0.73543340  0.18112863 -0.64270434 -0.6772179
+ [5,]  0.06714874  0.26121423 -0.04863963 -0.1073576
+ [6,]  0.85059407  0.15136174 -0.75741378 -0.7974648
+ [7,]  1.00000000  0.02897136 -0.65365792 -0.6774699
+ [8,]  0.02897136  1.00000000  0.32470142  0.2652014
+ [9,] -0.65365792  0.32470142  1.00000000  0.9713370
+[10,] -0.67746991  0.26520139  0.97133704  1.0000000
+> #find the largest 3 and plot them
+> findmax=function()
++ {
++   temp=0
++   x=0
++   y=0
++   for (i in 1:10)
++   {
++     for (j in 1:10)
++     {
++       if (cm[i,j]>temp && i!=j)
++       {
++ 	x=i
++ 	y=j
++ 	temp=cm[i,j]
++       }
++     }
++   }
++   cat(x," ",y,"\n")
++   ans=c(x,y)
++   return (ans)
++ }
+> 
+> findmin=function()
++ {
++   temp=0
++   x=0
++   y=0
++   for (i in 1:10)
++   {
++     for (j in 1:10)
++     {
++       if (cm[i,j]<temp && i!=j)
++       {
++ 	x=i
++ 	y=j
++ 	temp=cm[i,j]
++       }
++     }
++   }
++   cat(x," ",y,"\n")
++   ans=c(x,y)
++   return (ans)
++ }
+> 
+> plotcol=function(x,y)
++ {
++   #table(data[,x])
++   plot(data[,x],data[,y],xlab=names[x],ylab=names[y],main="Problem 2")
++   return (1)
++ }
+> 
+> o=findmax()
+9   10 
+> cm[o[1],o[2]]=0
+> cm[o[2],o[1]]=0
+> plotcol(a[o[1]],a[o[2]])
+[1] 1
+> 
+> o=findmax()
+3   6 
+> cm[o[1],o[2]]=0
+> cm[o[2],o[1]]=0
+> plotcol(a[o[1]],a[o[2]])
+[1] 1
+> 
+> o=findmax()
+2   3 
+> plotcol(a[o[1]],a[o[2]])
+[1] 1
+> 
+> o=findmin()
+6   10 
+> cm[o[1],o[2]]=0
+> cm[o[2],o[1]]=0
+> plotcol(a[o[1]],a[o[2]])
+[1] 1
+> 
+> o=findmin()
+6   9 
+> cm[o[1],o[2]]=0
+> cm[o[2],o[1]]=0
+> plotcol(a[o[1]],a[o[2]])
+[1] 1
+> 
+> o=findmin()
+3   10 
+> plotcol(a[o[1]],a[o[2]])
+[1] 1
+> 
+> 
+> #3
+> 
+> drawbox=function(x)
++ {
++   p=subset(data, data$V26 != "?")
++   boxplot(as.double(as.vector(p$V26))~p[,x], p,ylab=names[26],xlab=names[x],main="Problem 3")
++   return (1)
++ }
+> 
+> 
+> #find attribute with 5 or fewer values
+> for (i in 1:ncol(data))
++ {
++   k=1
++   while(is.na(data[k,i])) k=k+1
++ 
++   if (!is.numeric(data[k,i]))
++   {
++     t = table(na.omit(data[,i]))
++     if (length(t)<=5) 
++     {
++       drawbox(i)
++     }
++   }
++ }
+> 
+> 
+> 
+> #4
+> # 
+> # #find the 10 col
+> # j=1
+> # a = 1:16
+> # for (i in 1:ncol(data))
+> # {
+> #   if (is.numeric(data[1,i]))
+> #   {
+> #      a[j]=i
+> #      j=j+1
+> #   }
+> # }
+> # 
+> # #calculate the cor and store them in cm[,]
+> # c = 1:256
+> # cm = matrix(c,ncol=16,byrow=T)
+> # 
+> # d =na.omit(data)
+> # for (i in 1:16)
+> # {
+> #   for (j in 1:16)
+> #   {
+> #     
+> #     cm[i,j]=cor(d[,a[i]], d[,a[j]])
+> #   }
+> # }
+> # cm
+> # temp=0
+> # y=0
+> # for (j in 1:16)
+> # {
+> #   if (abs(cm[1,j])>temp && i!=j)
+> #   {
+> #       y=j
+> #       temp=cm[1,j]
+> #    }
+> # }
+> # plotcol(a[1],a[j])
+> # 
+> # temp=0
+> # y=0
+> # for (j in 1:16)
+> # {
+> #   if (abs(cm[2,j])>temp && i!=j)
+> #   {
+> #       y=j
+> #       temp=cm[2,j]
+> #    }
+> # }
+> # plotcol(a[2],a[j])
+> 
+> drawbox2=function(x)
++ {
++   p=subset(data, data$V26 != "?")
++   boxplot(as.double(as.vector(p$V1))~p[,x], p,ylab=names[1],xlab=names[x],main="Problem 4")
++   return (1)
++ }
+> 
+> drawbox3=function(x)
++ {
++   p=subset(data, data$V26 != "?")
++   boxplot(as.double(as.vector(p$V2))~p[,x], p,ylab=names[2],xlab=names[x],main="Problem 4")
++   return (1)
++ }
+> 
+> # 
+> # #find attribute with 5 or fewer values
+> # for (i in 1:ncol(data))
+> # {
+> #   k=1
+> #   while(is.na(data[k,i])) k=k+1
+> # 
+> #   if (!is.numeric(data[k,i]))
+> #   {
+> #     t = table(na.omit(data[,i]))
+> #     drawbox2(i)
+> #   }
+> # }
+> # 
+> # for (i in 1:ncol(data))
+> # {
+> #   k=1
+> #   while(is.na(data[k,i])) k=k+1
+> # 
+> #   if (!is.numeric(data[k,i]))
+> #   {
+> #     t = table(na.omit(data[,i]))
+> #     drawbox3(i)
+> #   }
+> # }
+> 
+> drawbox2(7)
+[1] 1
+> drawbox3(6)
+[1] 1
+> 
