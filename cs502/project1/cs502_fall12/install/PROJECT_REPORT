@@ -1,0 +1,216 @@
+Name: Tingjun Li
+Email: li400@purdue.edu
+
+a. Describe which parts of the project are completed and which parts are not:
+	From my understanding, all the parts required by the minestone 2 are implemented.
+
+b. List all the files you have created and explain those new functions and major new data structures:
+	
+	All the code I wrote is in one single file, "csproj1.c". 
+	
+	new data structures:
+	    I did not use any significant data structures. 
+	
+	new functions:
+	
+	void unparse_expr(tree node, FILE *fout);
+	unparse any expression node, it also redirect to certain expression to be handled by other functions.
+	
+	void unparse_call_expr(tree node, FILE *fout);
+	unparse modify_expr node
+	
+	void unparse_decl_expr(tree node, FILE *fout);
+	unparse decl_expr node
+	
+	void unparse_modify_expr(tree node, FILE *fout);
+	unparse modify_expr node
+	
+	void unparse_stmt(tree node, int level, FILE *fout);
+	starting point of unparsing any statement obtained from function body
+	
+	void print_function_tree(tree node, FILE *fout);
+	unparse function body
+	
+	void print_var_tree(tree node, FILE *fout);
+	unparse var_decl node
+	
+	void unparse_global_variables(struct varpool_node *node, FILE *fout);
+	this function is the starting point of unparsing global variables.
+	
+	void unparse_functions(struct cgraph_node *node, FILE *fout);
+	this function is the starting point of unparsing functions.
+	
+	void unparse_constructor_expr(tree node, FILE *fout)
+	unparse constructor_expr node
+	
+        void unparse_indirect_ref(tree node, FILE *fout)
+       	unparse indirect_ref node
+       	
+        unparse_component_ref(tree node, FILE *fout)
+        unparse component_ref node
+        
+        void unparse_cond_expr(tree node, int level, FILE *fout)
+        unparse cond_expr node
+        
+        void unparse_stmt_list(tree node, int level, FILE *fout)
+        unparse a list of statments
+        
+        void unparse_goto_expr(tree node, FILE *fout)
+        unparse goto_expr node
+        
+        void unparse_label_expr(tree node, FILE *fout)
+        unparse label_expr node
+        
+        void unparse_switch_expr(tree node, int level, FILE *fout)
+        unparse switch_expr node
+        
+        void unparse_case_label_expr(tree node, int level, FILE *fout)
+        unparse case label_label_expr
+        
+        void print_array_type(tree node, int level, FILE *fout)
+        print the type of array
+        
+        bool is_struct_decl(char *tmpstr)
+        check if the struct has been declared.
+        
+        void print_struct_decl(tree node, int level, FILE *fout)
+        print the struct declaration
+        
+c. GENERIC nodes:
+
+        INTEGER_CST:    
+                integer const
+                7
+        REAL_CST: 
+                real const
+                1.1
+	
+        STRING_CST:
+                strint const
+                "abc"
+	
+	PARM_DECL: 
+	        i in "f(i)"
+	
+	VAR_DECL: 
+	        i in i = 1;
+	        
+	CALL_EXPR:
+	    f();
+	
+	ADDR_EXPR:
+	    &d
+	    
+	NOP_EXPR:
+	FIX_TRUNC_EXPR:
+             a wrapper for other expr	    
+	    	
+	PLUS_EXPR:
+	        a+b
+	
+	MINUS_EXPR:
+	        a-b
+	        
+	TRUNC_DIV_EXPR:
+	        1/2
+	        
+	RDIV_EXPR:
+	        1.2/3
+	        
+	MULT_EXPR:
+	        a*b
+	
+	TRUTH_NOT_EXPR:
+	        !a
+	        
+	TRUTH_ANDIF_EXPR:
+	        a && b
+	        
+	GT_EXPR:
+	        a > b
+	        
+	LT_EXPR:
+	        a < b
+	        
+	GE_EXPR:
+	        a >= b
+	        
+	LE_EXPR:
+	        a <= b
+	        
+	EQ_EXPR:
+	        a == b
+	        
+	NE_EXPR:
+	        a != b
+	        
+	TRUTH_ORIF_EXPR:
+	        a || b
+	        
+	CONSTRUCTOR:
+	        {1, 2}
+	        
+	INDIRECT_REF:
+	        *p
+	        
+	COMPONENT_REF:
+	        a.b
+	        
+	FIELD_DECL:    
+	        b in a.b
+	        
+	ARRAY_REF:
+	        a[1]
+        
+        CALL_EXPR:
+                f(1);
+	    
+        MODIFY_EXPR:
+                i = 1;
+	    
+	DECL_EXPR:
+	        int i;	    
+	    
+        RETURN_EXPR:
+                return 1;
+	
+	COND_EXPR:
+	        if (a>b)
+	                i = 1;
+	        else
+	                i = 0;
+	                
+	STATEMENT_LIST:
+	        a list of statements	    
+	    
+        BIND_EXPR:        
+                {
+                        
+                }
+	
+	GOTO_EXPR:
+	        goto Label124;
+	    
+	LABEL_EXPR:
+	        Label123:
+	        
+	SWITCH_EXPR:
+	        switch (i)
+	        {
+	        }
+	        
+	CASE_LABEL_EXPR:
+	    case 1:
+	    
+	PREDECREMENT_EXPR:
+	        --i;            
+	        
+	PREINCREMENT_EXPR:
+	        ++i;  
+	        
+	POSTDECREMENT_EXPR:
+	        i--;
+	        
+	POSTINCREMENT_EXPR:
+	        i++;       
+	        

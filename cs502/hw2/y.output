@@ -1,0 +1,187 @@
+Terminals unused in grammar
+
+   INTEGER_LITERAL
+   OR
+   AND
+   NOT
+   LINE
+   OP_EQ
+   OP_GE
+   OP_LE
+   OP_NE
+   SYNERROR
+
+
+Grammar
+
+    0 $accept: Goal $end
+
+    1 Goal: A
+
+    2 A: '(' A ')'
+    3  | A '|' A
+    4  | A '*'
+    5  | B
+
+    6 B: CHAR_LITERAL B
+    7  | /* empty */
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 2
+')' (41) 2
+'*' (42) 4
+'|' (124) 3
+error (256)
+INTEGER_LITERAL (258)
+CHAR_LITERAL (259) 6
+OR (260)
+AND (261)
+NOT (262)
+LINE (263)
+OP_EQ (264)
+OP_GE (265)
+OP_LE (266)
+OP_NE (267)
+SYNERROR (268)
+
+
+Nonterminals, with rules where they appear
+
+$accept (18)
+    on left: 0
+Goal (19)
+    on left: 1, on right: 0
+A (20)
+    on left: 2 3 4 5, on right: 1 2 3 4
+B (21)
+    on left: 6 7, on right: 5 6
+
+
+state 0
+
+    0 $accept: . Goal $end
+
+    CHAR_LITERAL  shift, and go to state 1
+    '('           shift, and go to state 2
+
+    $default  reduce using rule 7 (B)
+
+    Goal  go to state 3
+    A     go to state 4
+    B     go to state 5
+
+
+state 1
+
+    6 B: CHAR_LITERAL . B
+
+    CHAR_LITERAL  shift, and go to state 1
+
+    $default  reduce using rule 7 (B)
+
+    B  go to state 6
+
+
+state 2
+
+    2 A: '(' . A ')'
+
+    CHAR_LITERAL  shift, and go to state 1
+    '('           shift, and go to state 2
+
+    $default  reduce using rule 7 (B)
+
+    A  go to state 7
+    B  go to state 5
+
+
+state 3
+
+    0 $accept: Goal . $end
+
+    $end  shift, and go to state 8
+
+
+state 4
+
+    1 Goal: A .
+    3 A: A . '|' A
+    4  | A . '*'
+
+    '|'  shift, and go to state 9
+    '*'  shift, and go to state 10
+
+    $default  reduce using rule 1 (Goal)
+
+
+state 5
+
+    5 A: B .
+
+    $default  reduce using rule 5 (A)
+
+
+state 6
+
+    6 B: CHAR_LITERAL B .
+
+    $default  reduce using rule 6 (B)
+
+
+state 7
+
+    2 A: '(' A . ')'
+    3  | A . '|' A
+    4  | A . '*'
+
+    '|'  shift, and go to state 9
+    ')'  shift, and go to state 11
+    '*'  shift, and go to state 10
+
+
+state 8
+
+    0 $accept: Goal $end .
+
+    $default  accept
+
+
+state 9
+
+    3 A: A '|' . A
+
+    CHAR_LITERAL  shift, and go to state 1
+    '('           shift, and go to state 2
+
+    $default  reduce using rule 7 (B)
+
+    A  go to state 12
+    B  go to state 5
+
+
+state 10
+
+    4 A: A '*' .
+
+    $default  reduce using rule 4 (A)
+
+
+state 11
+
+    2 A: '(' A ')' .
+
+    $default  reduce using rule 2 (A)
+
+
+state 12
+
+    3 A: A . '|' A
+    3  | A '|' A .
+    4  | A . '*'
+
+    '*'  shift, and go to state 10
+
+    $default  reduce using rule 3 (A)

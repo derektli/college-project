@@ -1,0 +1,41 @@
+Name: Tingjun Li
+Email: li400@purdue.edu
+
+a. Describe which parts of the project are completed and which parts are not:
+	From my understanding, all the parts required by the minestone 1 are implemented.
+
+b. List all the files you have created and explain those new functions and major new data structures:
+	
+	All the code I wrote is in one single file, "csproj1.c". 
+	
+	new data structures:
+	    I did not use any significant data structures. 
+	
+	new functions:
+	
+	void unparse_expr(tree node, FILE *fout);
+	unparse any expression node, it also redirect to certain expression to be handled by other functions.
+	
+	void unparse_call_expr(tree node, FILE *fout);
+	unparse modify_expr node
+	
+	void unparse_decl_expr(tree node, FILE *fout);
+	unparse decl_expr node
+	
+	void unparse_modify_expr(tree node, FILE *fout);
+	unparse modify_expr node
+	
+	void unparse_stmt(tree node, int level, FILE *fout);
+	starting point of unparsing any statement obtained from function body
+	
+	void print_function_tree(tree node, FILE *fout);
+	unparse function body
+	
+	void print_var_tree(tree node, FILE *fout);
+	unparse var_decl node
+	
+	void unparse_global_variables(struct varpool_node *node, FILE *fout);
+	this function is the starting point of unparsing global variables.
+	
+	void unparse_functions(struct cgraph_node *node, FILE *fout);
+	this function is the starting point of unparsing functions.

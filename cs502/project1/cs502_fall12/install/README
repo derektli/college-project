@@ -1,0 +1,11 @@
+Name: Tingjun Li
+Email: li400@purdue.edu
+
+How To Make: 
+	simply type "make"
+	It will generate a new file "cc1" 
+
+How To Run: 
+	simply type ".\cc1 test_file.c"
+	It will generate a unparsed program in a file named "unparse_code.c"
+

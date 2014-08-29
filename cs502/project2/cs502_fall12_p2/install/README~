@@ -1,0 +1,10 @@
+Name: Tingjun Li
+Email: li400@purdue.edu
+
+How To Make: 
+	simply type "make"
+	It will generate a new file "cc2" 
+
+How To Run: 
+	simply type ".\cc1 test_file.c"
+	It will generate a file "output.txt". It follows the format described in the project description.

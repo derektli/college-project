@@ -1,0 +1,156 @@
+
+1. Describe the main data structures and code outline. 
+   
+   I implemented this project based on a modified version of symbol table. 
+   I added a field to mark if the varible has been initialized. 
+   
+   struct sym_record
+   {
+       char name[50]; // name of varible
+       int ptr; // a field for pointers to link to other fields
+       int is_init; // is it initialized?
+   };
+
+   the algorithm of the code is a simple DFS starting from main,
+   and search into the functions that it can rearch. 
+   
+   Symbol table is initialized first with global varible and following main, 
+   everytime entering a new session, symbol table will put a dummy symbol to saperate 
+   and then continue to store new symbol into the table. 
+   
+   When it leaves a function, it will also clean up the symbol table and delete its part.
+   
+   When looking a varible, it will look at the one in the local function first(bottom up) 
+   and then global (top down) if not found. 
+   
+   A example symbol table in action:
+   
+===========================================
+	name	point to	is_init
+	===Glob	     0		0
+	myTemp	     0		1
+	===main	     -7		-7
+	i1	     0		0
+	i2	     0		0
+	===foo0	     -7		-7
+	a	     0		1
+	b	     0		1
+	i	     0		1
+===========================================
+
+
+2. List all the files you have created and explain those new major functions and 
+   data structures you implemented.
+   
+   All the code is in csproj2.c.
+   
+   Major Data structures: 
+   1. Symbol table described above. 
+   2. function list: a list of function stored in the order of dfs to be easily print later.
+   
+    struct func_record 
+    {
+	char name[50]; //  name
+	char list[100]; // list of variables that are not initialized
+	int is_logging; // finish logging yet? 
+    };
+
+    struct func_record func_list[200];
+
+   --------------------------------
+    Major Functions:
+   
+    void print_result(FILE *fout)
+    print out result to file
+
+    int find_sym(char *name)
+    find symbol in the symbol table by name, first local, then global if not found
+    
+    int is_str_logged(char *list, char* name)
+    check if the symbol is logged to prevent logged it twice in the final result
+    
+    void check_var_init(char *name)
+    check if a varible is initialized by name
+    
+    void unparse_component_ref(tree node, FILE *fout)
+    unparse component_ref node
+
+    int find_current_func()
+    find the current function, return index of the function list
+
+    void unparse_indirect_ref(tree node, FILE *fout)
+    unparse indirect_ref node
+
+    void unparse_constructor_expr(tree node, FILE *fout)
+    unparse constructor_expr node
+
+    void unparse_expr(tree node, FILE *fout)
+    unparse expression
+
+    struct cgraph_node *find_func_by_name(char *str)
+    find a function node by its name
+    
+    void print_symtab()
+    print out the symbol table for debug
+    
+    void symtab_push(char *s)
+    push in a new symbol table item
+    
+    void save_symtab()
+    save the symbol table to a backup copy
+
+    void load_symtab()
+    load the symbol table backup copy
+
+    void unparse_call_expr(tree node, FILE *fout)
+    unparse call_expr node
+
+    void print_var_tree(tree node, int level, FILE *fout)
+    unparse the variable definition node
+
+    void unparse_decl_expr(tree node, int level, FILE *fout)
+    unparse decl_expr node
+
+    void unparse_modify_expr(tree node, FILE *fout)
+    unparse modify_expr node
+
+    void unparse_cond_expr(tree node, int level, FILE *fout)
+    unparse cond_expr node
+
+    void unparse_stmt_list(tree node, int level, FILE *fout)
+    unparse a list of statements
+
+    void unparse_switch_expr(tree node, int level, FILE *fout)
+    unparse switch_expr node
+
+    void unparse_case_label_expr(tree node, int level, FILE *fout)
+    unparse case_label_expr node
+
+    void unparse_stmt(tree node, int level, FILE *fout)
+    unparse a statement
+
+    int is_func_recorded(char * name)
+    check if a function is recored in the function list
+
+    void analysis_func(tree node, FILE *fout)
+    the entry method of analysing a function
+
+    void unparse_global_variables(struct varpool_node *node, FILE *fout)
+    starting point of handling global variables
+
+3. Describe the status of implementation, such as cases you can handle and you cannot. 
+
+   Because I did not build a full control flow graph, in the control flow implementation, 
+   I have a few cases that I cannot pass.
+   such as: 
+   =============================
+   int a;
+   if (1>0) a = 1; else a = 2;
+   printf("%d\n", a);
+   =============================
+   switch (i){
+	case 1: a =1;
+	case 2: b = 2;
+	default: c = 3;
+    };
+   printf ("%d %d %d\n", a, b,c);

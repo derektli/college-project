@@ -1,0 +1,114 @@
+CS502 --Written  Homework 2 (Due Oct. 12, 2012 in class)
+
+Please have a cover page attached to your homework with your name on it. The TA will mark the grade on second page, for privacy.
+
+
+1. (40 pts) For each of the following grammars, first construct the SLR(1) states and the transitions
+between the states. For each state, please show the corresponding sets of items. Please point
+out any parsing conflicts in those states. For each grammar, if no parsing conflicts are found, please
+construct the SLR(1)-parsing table and apply it to the sample input (given after the grammar below). You apply it by showing how exactly the parser will move from one state to the next and what action is taken, i.e. shift/reduce.
+
+However, if any parsing conflicts exist, please discuss whether you can change the grammar such that it accepts the same language as before but now you can construct the SLR(1) parsing table without any parsing conflict. If you succeed in doing that, please apply the parsing table to the given input as mentioned above.
+
+If you do not believe it is possible to create an equivalent SLR(1) grammar, please explain.
+
+ 
+
+
+a. [Grammar 1] Note: This is a grammar for Boolean expressions
+
+S -> bexpr
+bexpr -> bexpr or bterm | bterm
+bterm -> bterm and bfactor | bfactor
+bfactor -> not bfactor | ( bexpr ) |ID
+Note: The grammar shown above has terminals "or", "and", "not", "(", ")", and ID.
+
+
+The sample input is " (ID or ID) and not ID"
+
+b. [Grammar 2]
+
+S --> factor
+factor --> ID(expr_list)
+factor --> ID.ID
+expr_list --> expr_list, expr
+expr_list --> 
+expr --> factor
+
+The sample input is "ID(ID.ID, ID, ID.ID)"
+
+2. (20 pts) Write an SLR(1) grammar to describe an arbitrary
+regular expression R given in the following format:
+
+a. R has an English alphabet (in lower case)
+b. R consists the following five meta symbols {E, |, *, (, )}, where | is the
+selector, and * is the Kleene closure operator. The capital letter E represents
+the null string. The concatenation operation is represented by putting the two
+sub-expressions side by side, such as ab. We assume that the Kleene closure
+operators can be repeated. For example, a** and (abc)*** are both allowed.
+
+Therefore, a representative input may look like the following
+ab| x (y | z | E)*
+
+Next, append semantic actions to the written grammar (using YACC format to make reference to $$, $1, $2, and so on) in order to evaluate whether the given regular expression R is nullable.   A regular expression is said to be nullable if and only if it accepts a null string. For example, the regular expression given above is not nullable and the semantic actions must print ("false") after accepting the sample input. If a nullable regular expression is the input, then "true" is printed instead.
+
+
+3.(10 pts) In class, we discussed two different ways to organize the symbol table to handle nested scopes in C-like languages. Please quantitatively compare the time efficiency between these two approaches.  Please state your assumptions when you make the comparison.     (This question may seem somewhat open, but its main purpose is to see whether the student understands the organization.)
+
+4. (10pts) The textbook (Figure 7.9) shows a C function f that implements the Fibonacci number computation. Please give an analysis on whether there is any impact on register saving/restoring by choosing different register partitioning schemes, i.e how many registers designated as callee-save, and how many caller save.
+
+Please write an "assembly code" for the function f, including the calling and returning sequence, using a format as close to the MIPS example (given in the lecture notes) as you can, assuming the register partitioning scheme used by MIPS (see lecture note "Activation Records").
+
+5. (10 pts) Exercises 7.6.1 and 7.6.2 in the text book.
+
+6. (10 pts) Take a look at the following C program.
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+static int x;
+extern int g(int *, int *, int *);
+int *y;
+char *z = "XYZ";
+char b[10] = "YNQ";
+char *p, *q;
+
+int main ( )
+{
+printf("%s\n", z);
+printf("%s\n", b);
+*b=100;
+printf("%s\n", b);
+
+*z = "z";
+printf("%s\n", z);
+
+
+exit(0);
+}
+
+
+Wh8en the above program is compiled using GCC, we may see the following compilation warning for line 1:
+
+post.c:18: warning: assignment makes integer from pointer without a cast
+
+When we run the executable program, we get the following output:
+
+XYZ
+YNQ
+dNQ
+Segmentation fault
+
+Please repeat the above experiment by running gcc to compile it (w/o specifying any special options) and explain what happens.
+
+7. (10 pts) 
+
+The lecture note titled (OOAllocation) shows a Java program that has three classes declared, namely Vehecle, Car, and Truck. 
+
+(i) When the main method in Main class makes the call: c.await(t), how is the address of the method await determined at run time?
+
+(ii) Inside the method await (declared in the Car class), how is the address of v.position determined at run time?
+
+(iii) How is the address of the method v.move determined at run time?
+
+(iv) How is the address of the method this.move determined at run time?
